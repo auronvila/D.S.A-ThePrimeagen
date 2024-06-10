@@ -1,3 +1,4 @@
+// implement binary search
 export default function bs_list(haystack: number[], needle: number): boolean {
   let lowPoint = 0;
   let highPoint = haystack.length;
@@ -9,12 +10,10 @@ export default function bs_list(haystack: number[], needle: number): boolean {
     if (value === needle) {
       return true
     } else if (value > needle) {
-      highPoint = middlePoint - 1
+      highPoint = middlePoint
     } else {
       lowPoint = middlePoint + 1
     }
-
   } while (lowPoint < highPoint)
-
   return false
 }
