@@ -1,10 +1,11 @@
-type QNode<T> = {
+type Node<T> = {
   value: T;
-  prev?: QNode<T>
+  prev?: Node<T>
 }
+
 export default class Stack<T> {
   public length: number;
-  public head?: QNode<T>
+  private head?: Node<T>
 
 
   constructor() {
@@ -13,29 +14,19 @@ export default class Stack<T> {
   }
 
   push(item: T): void {
-    this.length++;
-    const node = {value: item, next: this.head} as QNode<T>;
-    if (!this.head) {
-      this.head = node;
-      return
-    }
-
-    node.prev = this.head;
+    const node = {value: item, prev: this.head} as Node<T>
     this.head = node;
+    this.length++;
   }
 
   pop(): T | undefined {
-    this.length = Math.max(0,this.length - 1)
     if (this.length === 0) {
-      const head = this.head;
-      this.head = undefined;
-      return head?.value
+      return undefined;
     }
 
-    const head = this.head;
+    const headValue = this.head?.value;
     this.head = this.head?.prev;
-
-    return head?.value;
+    return headValue;
   }
 
   peek(): T | undefined {
