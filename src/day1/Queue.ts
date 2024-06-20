@@ -1,44 +1,49 @@
-type QNode<T> = {
+type Node<T> = {
   value: T;
-  next?: QNode<T>
+  next: Node<T>
 }
 export default class Queue<T> {
   public length: number;
-  private head?: QNode<T>
-  private tail?: QNode<T>
+  private head?: Node<T>;
+  private tail?: Node<T>;
+
 
   constructor() {
-    this.head = this.tail = undefined;
     this.length = 0;
+    this.head = this.tail = undefined;
   }
 
+  // add an item
   enqueue(item: T): void {
-    const node = {value: item} as QNode<T>
-    this.length++;
+    const node = {value: item} as Node<T>
     if (!this.tail) {
-      this.tail = node
-      return
+      this.tail = this.head = node;
+    } else {
+      this.tail.next = node;
+      this.tail = node;
     }
 
-    this.tail.next = node;
-    this.tail = node;
+    this.length++;
   }
 
+  // remove the item
   deque(): T | undefined {
     if (!this.head) {
       return undefined;
     }
-    this.length--;
-    const head = this.head;
+
+    const headValue = this.head.value;
     this.head = this.head.next;
+    this.length--;
 
     if (this.length === 0) {
-      return this.tail = undefined;
+      return undefined
     }
 
-    return head.value;
+    return headValue;
   }
 
+  // get the value of the item that is the head
   peek(): T | undefined {
     return this.head?.value;
   }
